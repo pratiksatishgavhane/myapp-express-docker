@@ -1,8 +1,9 @@
 const express=require("express")
 const db=require("../db")
-
+const utils= require("../utils")
 const router=express();
 
+router.use(express.json())
 router.get("/", (request, response)=>
 {
     var connection = db.connect();
@@ -10,17 +11,10 @@ router.get("/", (request, response)=>
 
     connection.query(query, (err,data)=>
     {
-        if(err==null)
-        {
-            response.send(JSON.stringify(data));
-        }
-        else
-        {
-            response.send(JSON.stringify(err.message));
-        }
+        connection.end();
+        response.send(utils.createResult(err,data))
     })
-    connection.end();
-
+    
 });
 
 
@@ -28,19 +22,12 @@ router.post("/", (request, response)=>
 {
     var connection = db.connect();
     const{No, Name, Age}=request.body;
-    const query= `insert into Emp values(${No},'${Name}', ${Age})`;
+    const query= `insert into Emp(No,Name,Age) values(${No},'${Name}', ${Age})`;
     connection.query(query, (err,data)=>
-    {
-         if(err==null)
-        {
-            response.send(JSON.stringify(data));
-        }
-        else
-        {
-            response.send(JSON.stringify(err.message));
-        }
+    {    
+        connection.end();
+        response.send(utils.createResult(err,data))
     })
-    connection.end();
 
 });
 
