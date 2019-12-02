@@ -5,7 +5,7 @@
             if(err)
             {
                 result['status']='error';
-                result['error']=error;
+                result['error']=err;
             }
             else
             {
