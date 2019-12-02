@@ -12,7 +12,7 @@ router.get("/", (request, response)=>
     connection.query(query, (err,data)=>
     {
         connection.end();
-        response.send(utils.createResult(err,data))
+        response.send(JSON.stringify(utils.createResult(err,data)))
     })
     
 });
@@ -26,7 +26,7 @@ router.post("/", (request, response)=>
     connection.query(query, (err,data)=>
     {    
         connection.end();
-        response.send(utils.createResult(err,data))
+        response.send(JSON.stringify(utils.createResult(err,data)))
     })
 
 });
